@@ -1,7 +1,7 @@
-// Remplacez par vos propres informations d'identification pour l'API Plex et YouTube
-const plexToken = 'Dex6eXRyhf_dpX9j5orx';
-const plexBaseURL = 'http://86.237.232.21:32400';
-const youtubeApiKey = 'AIzaSyAIdMBFNUWR310KV5XXnNkuL11ENomMuyU'; // Remplacez par votre clé API YouTube
+// Récupérer les informations d'identification pour l'API Plex et YouTube à partir des variables d'environnement
+const plexToken = process.env.PLEX_TOKEN;
+const plexBaseURL = process.env.PLEX_BASE_URL;
+const youtubeApiKey = process.env.YOUTUBE_API_KEY;
 
 // Éléments du DOM
 const thumbnail = document.getElementById('thumbnail');
@@ -34,7 +34,6 @@ async function getRandomContent() {
         thumbnail.src = videoThumb;
         titleElement.textContent = videoTitle;
         summary.textContent = videoSummary;
-
         // Chercher la bande-annonce sur YouTube
         const youtubeResponse = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${encodeURIComponent(videoTitle + ' bande annonce VF')}&type=video&key=${youtubeApiKey}`);
         const youtubeData = await youtubeResponse.json();
@@ -45,7 +44,6 @@ async function getRandomContent() {
         watchButton.addEventListener('click', () => {
             window.location.href = 'plex://';
         });
-
     } catch (error) {
         console.error('Une erreur s\'est produite lors de la récupération du contenu :', error);
     }
@@ -53,3 +51,4 @@ async function getRandomContent() {
 
 // Charger le contenu aléatoire lors du chargement de la page
 getRandomContent();
+
